@@ -14,57 +14,93 @@ const divideBtn = document.querySelector("#divideBtn");
 const multiplyBtn = document.querySelector("#multiplyBtn");
 const addBtn = document.querySelector("#addBtn");
 const screen = document.querySelector("#screen");
+const equalsBtn = document.querySelector("#equalsBtn");
+let operand;
 
 divideBtn.addEventListener("click", function() {
-  clearScreen();
+    clearScreen();
+    storeNumbersSelectedVar1();
+    clearNumbersSelected();
+    operand = divide;
 });
 
 multiplyBtn.addEventListener("click", function() {
-  clearScreen();
+    clearScreen();
+    storeNumbersSelectedVar1();
+    clearNumbersSelected();
+    operand = multiply;
 });
 
 addBtn.addEventListener("click", function() {
-  clearScreen();
+    clearScreen();
+    storeNumbersSelectedVar1();
+    clearNumbersSelected();
+    operand = add;
+
 });
 
 subtractBtn.addEventListener("click", function() {
-  clearScreen();
+    clearScreen();
+    storeNumbersSelectedVar1();
+    clearNumbersSelected();
+    operand = subtract;
 });
+
+equalsBtn.addEventListener("click", function() {
+    clearScreen();
+    storeNumbersSelectedVar2();
+    clearNumbersSelected();
+    operator(operand, firstNum, secondNum);
+})
 
 const buttonObj = {};
 for (let i = 0; i < 10; i++) {
-  buttonObj[`number${i}`] = document.querySelector(`#number${i}`);
-  buttonObj[`number${i}`].addEventListener("click", function() {
-    updateNumbers(i);
-    renderScreenOnKeyDown();
-  });
+    buttonObj[`number${i}`] = document.querySelector(`#number${i}`);
+    buttonObj[`number${i}`].addEventListener("click", function() {
+        updateNumbers(i);
+        renderScreenOnKeyDown();
+    });
 }
 
 function renderScreenOnKeyDown() {
-  let textInput = numbersSelected.join("");
-  screen.textContent = textInput;
-  return textInput;
+    let textInput = numbersSelected.join("");
+    screen.textContent = textInput;
+    return textInput;
+}
+let firstNum
+
+function storeNumbersSelectedVar1() {
+    let numString = numbersSelected.join("");
+    firstNum = parseInt(numString, 10);
+    return firstNum;
+}
+let secondNum
+
+function storeNumbersSelectedVar2() {
+    let numString2 = numbersSelected.join("");
+    secondNum = parseInt(numString2, 10);
+    return secondNum;
 }
 
 function clearScreen() {
-  screen.textContent = "";
+    screen.textContent = "";
 }
 
 let numbersSelected = [];
 
 function clearNumbersSelected() {
-  numbersSelected.length = 0;
-  return numbersSelected;
+    numbersSelected.length = 0;
+    return numbersSelected;
 }
 
 function updateNumbers(number) {
-  numbersSelected.push(number);
-  return numbersSelected;
+    numbersSelected.push(number);
+    return numbersSelected;
 }
 clear.addEventListener("click", function() {
-  clearNumbersSelected();
-  clearScreen();
-  console.log(numbersSelected);
+    clearNumbersSelected();
+    clearScreen();
+    console.log(numbersSelected);
 });
 // number1.addEventListener("click", function(){
 //     updateNumbers(1);
@@ -98,35 +134,39 @@ clear.addEventListener("click", function() {
 // });
 
 function add(x, y) {
-  let sum = x + y;
-  return sum;
+    let sum = x + y;
+    screen.textContent = sum;
+    return sum;
 }
 
 function subtract(x, y) {
-  let remainder = x - y;
-  return remainder;
+    let remainder = x - y;
+    screen.textContent = remainder;
+    return remainder;
 }
 
 function multiply(x, y) {
-  let answer = x * y;
-  return answer;
+    let answer = x * y;
+    screen.textContent = answer;
+    return answer;
 }
 
 function divide(x, y) {
-  let ans = x / y;
-  return ans;
+    let ans = x / y;
+    screen.textContent = ans;
+    return ans;
 }
 
 function operator(operand, num1, num2) {
-  if (operand == add) {
-    return add(num1, num2);
-  } else if (operand == subtract) {
-    return subtract(num1, num2);
-  } else if (operand == multiply) {
-    return multiply(num1, num2);
-  } else if (operand == divide) {
-    return divide(num1, num2);
-  } else {
-    return "ERROR";
-  }
+    if (operand == add) {
+        return add(num1, num2);
+    } else if (operand == subtract) {
+        return subtract(num1, num2);
+    } else if (operand == multiply) {
+        return multiply(num1, num2);
+    } else if (operand == divide) {
+        return divide(num1, num2);
+    } else {
+        return "ERROR";
+    }
 }
