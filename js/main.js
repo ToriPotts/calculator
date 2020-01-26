@@ -1,13 +1,3 @@
-// const number1 = document.querySelector("#number1")
-// const number2 = document.querySelector("#number2")
-// const number3 = document.querySelector("#number3")
-// const number4 = document.querySelector("#number4")
-// const number5 = document.querySelector("#number5")
-// const number6 = document.querySelector("#number6")
-// const number7 = document.querySelector("#number7")
-// const number8 = document.querySelector("#number8")
-// const number9 = document.querySelector("#number9")
-// const number0 = document.querySelector("#number0")
 const clear = document.querySelector("#clearBtn");
 const display = document.querySelector("#screen");
 const divideBtn = document.querySelector("#divideBtn");
@@ -18,40 +8,30 @@ const equalsBtn = document.querySelector("#equalsBtn");
 let operand;
 
 divideBtn.addEventListener("click", function() {
-    clearScreen();
-    storeNumbersSelectedVar1();
-    clearNumbersSelected();
-    operand = divide;
+    continuingMath();
+    operand = "divide";
 });
 
 multiplyBtn.addEventListener("click", function() {
-    clearScreen();
-    storeNumbersSelectedVar1();
-    clearNumbersSelected();
-    operand = multiply;
+    continuingMath();
+    operand = "multiply";
 });
 
 addBtn.addEventListener("click", function() {
-    clearScreen();
-    storeNumbersSelectedVar1();
-    clearNumbersSelected();
-    operand = add;
-
+    continuingMath();
+    operand = "add";
 });
 
 subtractBtn.addEventListener("click", function() {
-    clearScreen();
-    storeNumbersSelectedVar1();
-    clearNumbersSelected();
-    operand = subtract;
+    continuingMath();
+    operand = "subtract";
 });
 
 equalsBtn.addEventListener("click", function() {
     clearScreen();
     storeNumbersSelectedVar2();
-    clearNumbersSelected();
     operator(operand, firstNum, secondNum);
-})
+});
 
 const buttonObj = {};
 for (let i = 0; i < 10; i++) {
@@ -67,14 +47,14 @@ function renderScreenOnKeyDown() {
     screen.textContent = textInput;
     return textInput;
 }
-let firstNum
+let firstNum;
 
 function storeNumbersSelectedVar1() {
     let numString = numbersSelected.join("");
     firstNum = parseInt(numString, 10);
     return firstNum;
 }
-let secondNum
+let secondNum;
 
 function storeNumbersSelectedVar2() {
     let numString2 = numbersSelected.join("");
@@ -100,73 +80,80 @@ function updateNumbers(number) {
 clear.addEventListener("click", function() {
     clearNumbersSelected();
     clearScreen();
+    fullClear();
     console.log(numbersSelected);
 });
-// number1.addEventListener("click", function(){
-//     updateNumbers(1);
-// });
-// number2.addEventListener("click", function() {
-//     updateNumbers(2)
-// });
-// number3.addEventListener("click", function() {
-//     updateNumbers(3)
-// });
-// number4.addEventListener("click", function() {
-//     updateNumbers(4)
-// });
-// number5.addEventListener("click", function() {
-//     updateNumbers(5)
-// });
-// number6.addEventListener("click", function() {
-//     updateNumbers(6)
-// });
-// number7.addEventListener("click", function() {
-//     updateNumbers(7)
-// });
-// number8.addEventListener("click", function() {
-//     updateNumbers(8)
-// });
-// number9.addEventListener("click", function() {
-//     updateNumbers(9)
-// });
-// number0.addEventListener("click", function() {
-//     updateNumbers(0)
-// });
+let answer;
 
 function add(x, y) {
-    let sum = x + y;
-    screen.textContent = sum;
-    return sum;
+    answer = x + y;
+    roundedAnswer = Math.round(answer * 10) / 10;
+    screen.textContent = roundedAnswer;
+    firstNum = roundedAnswer;
+    secondNum = undefined;
+    return roundedAnswer;
 }
 
 function subtract(x, y) {
-    let remainder = x - y;
-    screen.textContent = remainder;
-    return remainder;
+    answer = x - y;
+    roundedAnswer = Math.round(answer * 10) / 10;
+    screen.textContent = roundedAnswer;
+    secondNum = undefined;
+    firstNum = roundedAnswer;
+    return roundedAnswer;
 }
 
 function multiply(x, y) {
-    let answer = x * y;
-    screen.textContent = answer;
-    return answer;
+    answer = x * y;
+    roundedAnswer = Math.round(answer * 10) / 10;
+    screen.textContent = roundedAnswer;
+    secondNum = undefined;
+    firstNum = roundedAnswer;
+    return roundedAnswer;
 }
 
-function divide(x, y) {
-    let ans = x / y;
-    screen.textContent = ans;
-    return ans;
+function divide(firstNum, secondNum) {
+    if (secondNum === 0) {
+        screen.textContent = "Not by 0";
+    } else {
+        answer = firstNum / secondNum;
+        roundedAnswer = Math.round(answer * 10) / 10;
+        screen.textContent = roundedAnswer;
+        secondNum = undefined;
+        firstNum = roundedAnswer;
+        return roundedAnswer;
+    }
 }
 
 function operator(operand, num1, num2) {
-    if (operand == add) {
+    if (operand == "add") {
         return add(num1, num2);
-    } else if (operand == subtract) {
+    } else if (operand == "subtract") {
         return subtract(num1, num2);
-    } else if (operand == multiply) {
+    } else if (operand == "multiply") {
         return multiply(num1, num2);
-    } else if (operand == divide) {
+    } else if (operand == "divide") {
         return divide(num1, num2);
     } else {
         return "ERROR";
     }
+}
+
+function continuingMath() {
+    clearScreen();
+    if (!operand) {
+        storeNumbersSelectedVar1();
+        clearNumbersSelected();
+    } else if (!!operand) {
+        storeNumbersSelectedVar2();
+        operator(operand, firstNum, secondNum);
+        operand = "";
+        clearNumbersSelected();
+    }
+}
+
+function fullClear() {
+    firstNum = undefined;
+    secondNum = undefined;
+    operand = undefined;
 }
